@@ -1,16 +1,13 @@
 import { useState } from "react";
-import BottomMenu from "./ui/bottom-bar/BottomBar";
 
-import "./App.css";
+import "./game-page.css";
 
-function App() {
+function GamePage() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="app-container">
+    <div className="container">
       <div className="card">
-        <BottomMenu />
-
         <button onClick={() => setCount((count) => count + 1)}>
           {count} $
         </button>
@@ -19,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default GamePage;
