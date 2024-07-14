@@ -16,6 +16,28 @@ function App() {
     }
   }, [isInitialized, tg]);
 
+  /**
+   * Prevent zoom on mobile devices
+   **/
+
+  useEffect(() => {
+    const preventZoom = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("touchstart", preventZoom, { passive: false });
+    document.addEventListener("touchend", preventZoom, { passive: false });
+    document.addEventListener("touchmove", preventZoom, { passive: false });
+
+    return () => {
+      document.removeEventListener("touchstart", preventZoom);
+      document.removeEventListener("touchend", preventZoom);
+      document.removeEventListener("touchmove", preventZoom);
+    };
+  }, []);
+
   return (
     <div className="app">
       <Routes />
