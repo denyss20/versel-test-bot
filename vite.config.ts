@@ -1,7 +1,9 @@
 import { resolve } from "path";
 import { config as dotenvConfig } from "dotenv";
 import { defineConfig } from "vite";
+
 import react from "@vitejs/plugin-react";
+import svgr from "vite-plugin-svgr";
 
 dotenvConfig();
 
@@ -20,7 +22,10 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    // eslint()
+    svgr({
+      svgrOptions: {},
+    }),
+    ,
   ],
   // server: {
   //   port: 3000,

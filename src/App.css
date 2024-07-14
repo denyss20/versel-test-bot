@@ -5,8 +5,9 @@
   text-align: center;
 }
 
-.app-container {
+.app {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 15px;
 }

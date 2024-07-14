@@ -1,31 +1,51 @@
 .bottom-menu {
   position: fixed;
-  left: 5px; /* Adjusted to match right margin for consistency */
-  bottom: 3px;
-  width: calc(
-    100% - 10px
-  ); /* Adjust width to account for left and right margins */
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 5px;
+  left: 10;
+  bottom: 30px;
+
   height: auto;
+  width: calc(100% - 30px);
+  margin: 0 10px;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+
+  background: #1c1c1d;
+  border-radius: 24px;
+  border: 1px solid #373739;
 }
 
 .menu-item {
-  flex: 1;
-  text-align: center;
-  padding: 10px;
-  font-size: 16px;
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 14px;
+
+  font-size: 10px;
+  font-weight: 500;
+
   cursor: pointer;
-  user-select: none;
-  border: 1px solid grey;
-  border-radius: 10px;
+}
+
+.menu-item.active {
+  color: #3d8dee;
 }
 
 .menu-item:active {
-  border: 1px solid white;
   transform: scale(95%);
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.icon.active {
+  color: #3d8dee;
 }
