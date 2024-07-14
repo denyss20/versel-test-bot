@@ -7,13 +7,16 @@ import WalletPage from "@ui/pages/WalletPage";
 import AuctionPage from "@ui/pages/AuctionPage";
 import BottomBar from "@ui/components/bottom-bar/BottomBar";
 
-// Layout component that includes the BottomBar
+/* Layout component that includes the BottomBar */
+
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <>
     {children}
     <BottomBar />
   </>
 );
+
+/* Routes */
 
 const Routes = () => {
   const publicRoutes = [
