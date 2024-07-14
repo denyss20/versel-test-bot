@@ -1,7 +1,7 @@
 import React from "react";
 
 const TasksPage: React.FC = () => {
-  return <div>TasksPage</div>;
+  return <div>Tasks is Coming Soon!</div>;
 };
 
 export default TasksPage;

@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+
 import Routes from "@routes/Routes";
+
 import { useTelegram } from "@hooks/useTelegram";
+
 import "./App.css";
 
 function App() {

@@ -22,11 +22,12 @@
   background-attachment: fixed;
 }
 
-html {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 body {
@@ -35,11 +36,23 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  transform: translate3d(0, 0, 0);
+  overflow: hidden;
+
+  /* Additional style to prevent iOS bounce effect */
+  -webkit-overflow-scrolling: touch;
+  position: fixed; /* This prevents scrolling on iOS */
+  width: 100%; /* Prevents horizontal scrolling */
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #111111;
+    background: radial-gradient(
+      circle,
+      rgba(61, 141, 238, 1) 0%,
+      rgba(47, 102, 168, 1) 0%,
+      rgba(38, 75, 120, 1) 0%,
+      rgba(26, 43, 63, 1) 31%,
+      rgba(17, 17, 17, 1) 43%
+    );
   }
 }

@@ -1,32 +1,44 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import BankIcon from "./assets/BankIcon";
+import StatsIcon from "./assets/StatsIcon";
+import WalletIcon from "./assets/WalletIcon";
+import TasksIcon from "./assets/TasksIcon";
+import AuctionIcon from "./assets/AuctionIcon";
 
 import "./BottomMenu.css";
 
-const BottomMenu: React.FC = () => {
+// MenuItem component
+const MenuItem: React.FC<{
+  path: string;
+  IconComponent: React.ElementType;
+  label: string;
+}> = ({ path, IconComponent, label }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const navigateTo = (path: string) => {
-    navigate(path);
-  };
+  const isActive = location.pathname === path;
 
   return (
+    <div
+      className={`menu-item ${isActive ? "active" : ""}`}
+      onClick={() => navigate(path)}
+    >
+      <IconComponent className="icon" fill={isActive ? "#3d8dee" : "#828282"} />
+      {label}
+    </div>
+  );
+};
+
+const BottomMenu: React.FC = () => {
+  return (
     <div className="bottom-menu">
-      <div className="menu-item" onClick={() => navigateTo("/")}>
-        Game
-      </div>
-      <div className="menu-item" onClick={() => navigateTo("/stats")}>
-        Stats
-      </div>
-      <div className="menu-item" onClick={() => navigateTo("/wallet")}>
-        Wallet
-      </div>
-      <div className="menu-item" onClick={() => navigateTo("/tasks")}>
-        Tasks
-      </div>
-      <div className="menu-item" onClick={() => navigateTo("/auction")}>
-        Auction
-      </div>
+      <MenuItem path="/" IconComponent={BankIcon} label="Game" />
+      <MenuItem path="/stats" IconComponent={StatsIcon} label="Stats" />
+      <MenuItem path="/wallet" IconComponent={WalletIcon} label="Wallet" />
+      <MenuItem path="/tasks" IconComponent={TasksIcon} label="Tasks" />
+      <MenuItem path="/auction" IconComponent={AuctionIcon} label="Auction" />
     </div>
   );
 };
