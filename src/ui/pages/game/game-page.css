@@ -1,9 +1,18 @@
-.container {
+.game-page {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
 }
 
-.card {
-  padding: 2em;
+.progress-bar-wrapper {
+  position: absolute;
+  bottom: 134px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100vw - 30px);
+  max-width: 960px;
 }
