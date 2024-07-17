@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import ProgressBar from "./components/ProgressBar";
 
+import BankaIcon from "./assets/BankaIcon";
+
 import "./game-page.css";
 
 function GamePage() {
@@ -9,10 +11,10 @@ function GamePage() {
 
   return (
     <div className="game-page">
-      <div className="">
-        <button onClick={() => setCount((count) => count + 1)}>
-          {count} $
-        </button>
+      <div>
+        <div className="banka-icon-wrapper">
+          <BankaIcon onClick={() => setCount((count) => count + 1)} />
+        </div>
 
         <div className="progress-bar-wrapper">
           <ProgressBar progress={count} max={100} />
