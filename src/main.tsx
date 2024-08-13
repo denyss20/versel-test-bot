@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import { TelegramContextProvider } from "@context/useTelegramContext";
+
 import App from "./App";
 
 import "./index.css";
@@ -8,6 +10,8 @@ import "./index.css";
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
-    <App />
+    <TelegramContextProvider>
+      <App />
+    </TelegramContextProvider>
   </React.StrictMode>
 );

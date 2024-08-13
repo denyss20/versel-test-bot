@@ -35,10 +35,10 @@ const BottomMenu: React.FC = () => {
   return (
     <div className="bottom-menu">
       <MenuItem path="/" IconComponent={BankIcon} label="Game" />
-      <MenuItem path="/stats" IconComponent={StatsIcon} label="Stats" />
+      <MenuItem path="/auction" IconComponent={AuctionIcon} label="Auction" />
       <MenuItem path="/wallet" IconComponent={WalletIcon} label="Wallet" />
       <MenuItem path="/tasks" IconComponent={TasksIcon} label="Tasks" />
-      <MenuItem path="/auction" IconComponent={AuctionIcon} label="Auction" />
+      <MenuItem path="/stats" IconComponent={StatsIcon} label="Stats" />
     </div>
   );
 };
