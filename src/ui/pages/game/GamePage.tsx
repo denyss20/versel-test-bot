@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import useGetUserData from "@hooks/api/get/useGetUserData";
+
+import { useTelegramContext } from "@context/useTelegramContext";
 
 import ProgressBar from "./components/ProgressBar";
 
@@ -8,6 +12,16 @@ import "./game-page.css";
 
 function GamePage() {
   const [count, setCount] = useState(0);
+
+  const { webApp } = useTelegramContext();
+
+  const { getUserDataRequest } = useGetUserData();
+
+  useEffect(() => {
+    if (webApp?.initData) {
+      getUserDataRequest(webApp.initData);
+    }
+  }, [webApp]);
 
   return (
     <div className="game-page">
