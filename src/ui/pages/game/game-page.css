@@ -8,6 +8,18 @@
   height: 100vh;
 }
 
+.top-info-rows {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
 .banka-icon-wrapper {
   position: absolute;
   top: 50%;
