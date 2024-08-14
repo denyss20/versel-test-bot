@@ -8,15 +8,28 @@
   height: 100vh;
 }
 
-.banka-wrapper {
+.top-info-rows {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 15px;
+  left: 15px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.banka-icon-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-48%, -25%);
+
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  user-select: none;
 }
 
 .progress-bar-wrapper {
@@ -24,6 +37,9 @@
   bottom: 134px;
   left: 50%;
   transform: translateX(-50%);
+
   width: calc(100vw - 30px);
   max-width: 960px;
+
+  user-select: none;
 }

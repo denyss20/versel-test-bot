@@ -1,0 +1,43 @@
+.info-row {
+  height: 66px;
+  padding: 16px 0px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 24px 0px 0px 0px;
+  background: #1c1c1d;
+  border: 1px solid #373739;
+  border-radius: 24px;
+  padding: 14px 20px;
+  box-sizing: border-box;
+}
+
+.info-row-icon {
+}
+
+.info-row-right-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-row-label {
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+  text-align: left;
+  color: #828282;
+}
+
+.info-row-value {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: left;
+  color: white;
+}
