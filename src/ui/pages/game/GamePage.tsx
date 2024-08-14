@@ -5,6 +5,7 @@ import useGetUserData from "@hooks/api/get/useGetUserData";
 import { useTelegramContext } from "@context/useTelegramContext";
 
 import ProgressBar from "./components/ProgressBar";
+import TokensCount from "@ui/components/tokens-count/TokensCount";
 
 import BankaIcon from "./assets/BankaIcon";
 
@@ -17,12 +18,14 @@ function GamePage() {
 
   const { getUserDataRequest } = useGetUserData();
 
+  /* Get users data on load */
   useEffect(() => {
     if (webApp?.initData) {
       getUserDataRequest(webApp.initData);
     }
   }, [webApp]);
 
+  /* Render */
   return (
     <div className="game-page">
       <div>
@@ -30,6 +33,7 @@ function GamePage() {
           <BankaIcon onClick={() => setCount((count) => count + 1)} />
         </div>
 
+        <TokensCount />
         <div className="progress-bar-wrapper">
           <ProgressBar progress={count} max={100} />
         </div>

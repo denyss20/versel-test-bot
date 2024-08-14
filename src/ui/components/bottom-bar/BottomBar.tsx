@@ -7,7 +7,7 @@ import WalletIcon from "./assets/WalletIcon";
 import TasksIcon from "./assets/TasksIcon";
 import AuctionIcon from "./assets/AuctionIcon";
 
-import "./BottomMenu.css";
+import "./bottom-menu.css";
 
 // MenuItem component
 const MenuItem: React.FC<{
