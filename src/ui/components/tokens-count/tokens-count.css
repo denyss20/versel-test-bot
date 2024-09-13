@@ -8,16 +8,12 @@
   height: 68px;
   width: 128px;
   padding: 14px 24px 14px 24px;
+  margin: 0 0 20px 0;
 
   background: #1c1c1d;
   border: 1px solid #373739;
   border-radius: 24px;
   box-sizing: border-box;
-
-  position: absolute;
-  bottom: 175px;
-  left: 50%;
-  transform: translateX(-50%);
 
   user-select: none;
 }
