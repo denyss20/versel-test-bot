@@ -1,10 +1,13 @@
 import useApiClient from "@hooks/api/useApiClient";
 
+import { useAppContext } from "@context/useAppContext";
+
 /* Request to get users data */
 
 const useGetUserData = (): {
   getUserDataRequest: (queryString: string) => Promise<void>;
 } => {
+  const { setUserData } = useAppContext();
   const apiClient = useApiClient();
 
   const getUserDataRequest = async (queryString: string): Promise<void> => {
@@ -14,7 +17,11 @@ const useGetUserData = (): {
       const responseData = response.data;
 
       console.warn("user data -->", responseData);
-    } catch (error) {}
+
+      setUserData(responseData);
+    } catch (error) {
+      console.warn({ error });
+    }
   };
 
   return { getUserDataRequest };
