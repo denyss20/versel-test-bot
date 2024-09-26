@@ -13,8 +13,6 @@ const helper = {
       throw new Error("Number exceeds the maximum limit of 9 billion");
     }
   },
-
-  //
 };
 
 export default helper;

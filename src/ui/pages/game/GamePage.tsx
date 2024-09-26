@@ -1,7 +1,8 @@
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useCallback, useEffect, useState, useMemo, useRef } from "react";
 
 import useGetUserData from "@hooks/api/get/useGetUserData";
 import useGetTokensLiquidityData from "@hooks/api/get/useGetTokensLiquidityData";
+import useAddNewToken from "@hooks/api/post/useAddNewToken";
 
 import { useTelegramContext } from "@context/useTelegramContext";
 import { useAppContext } from "@context/useAppContext";
@@ -22,13 +23,14 @@ function GamePage() {
   /* API requests */
   const { getUserDataRequest } = useGetUserData();
   const { getTokensLiquidityDataRequest } = useGetTokensLiquidityData();
+  const { addNewTokenRequest } = useAddNewToken();
 
   /* State */
   const { webApp } = useTelegramContext();
   const { tokensLiquidity, userData } = useAppContext();
   const { tokens } = userData || { tokens: 0 };
 
-  const maxClicks = 100;
+  const maxClicks = 10;
   const [clicksCount, setClicksCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const decrementInterval = useRef<NodeJS.Timeout | null>(null);
@@ -36,15 +38,15 @@ function GamePage() {
   /* Handlers */
 
   // Function to handle finishing the game
-  const finishCallback = async () => {
+  const finishCallback = useCallback(async (tappedTokens: number) => {
+    console.warn("finish callback");
     // Simulate a successful callback
-    const isSuccess = await new Promise((resolve) =>
-      setTimeout(() => resolve(true), 1000)
-    );
+    const isSuccess = await addNewTokenRequest(tappedTokens);
+
     if (isSuccess) {
       setClicksCount(0);
     }
-  };
+  }, []);
 
   // Effect to handle decrement logic
   useEffect(() => {
@@ -82,8 +84,8 @@ function GamePage() {
   const handleClick = () => {
     setClicksCount((prevCount) => {
       const newCount = prevCount + 1;
-      if (newCount >= maxClicks) {
-        finishCallback();
+      if (newCount === maxClicks) {
+        finishCallback(newCount);
         setIsActive(false); // To stop decrementing when the callback is successful
       } else {
         setIsActive(true);

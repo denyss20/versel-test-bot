@@ -18,9 +18,9 @@ const useGetUserData = (): {
 
       console.warn("user data -->", responseData);
 
-      setUserData(responseData);
+      setUserData(responseData.user);
     } catch (error) {
-      console.warn({ error });
+      console.warn({ error }, "get user");
     }
   };
 

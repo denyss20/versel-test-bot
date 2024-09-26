@@ -17,7 +17,7 @@ const useGetTokensLiquidityData = (): {
       const responseData = response.data;
 
       console.warn("ALL TOKENS: -->", responseData);
-      setTokensLiquidity(responseData.world);
+      setTokensLiquidity(responseData.world.tokens);
     } catch (error) {}
   };
 
