@@ -13,6 +13,7 @@ import ProgressBar from "./components/ProgressBar";
 
 import helper from "./utils/helper";
 
+import EmptyBank from "./assets/EmptyBank";
 import GlassIcon from "./assets/GlassIcon";
 import StarIcon from "./assets/StarIcon";
 
@@ -29,12 +30,10 @@ function GamePage() {
   const { tokensLiquidity, userData } = useAppContext();
   const { tokens } = userData || { tokens: 0 };
 
-  const maxClicks = 30;
+  const maxClicks = 10;
   const [clicksCount, setClicksCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const decrementInterval = useRef<NodeJS.Timeout | null>(null);
-
-  console.log(clicksCount);
 
   /* Handlers */
 
@@ -145,7 +144,7 @@ function GamePage() {
 
       <div className="game-page-main-content">
         <div className="banka-icon-wrapper">
-          {helper.getBankIcon(clicksCount, maxClicks, handleClick)}
+          <EmptyBank onClick={handleClick} />
         </div>
 
         <TokensCount />

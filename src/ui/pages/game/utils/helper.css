@@ -1,0 +1,33 @@
+.bank-icon-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.back-layer,
+.front-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.coins-layer {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-45%);
+}
+
+.back-layer {
+  z-index: 1;
+}
+
+.coins-layer {
+  z-index: 2;
+}
+
+.front-layer {
+  z-index: 3;
+}
