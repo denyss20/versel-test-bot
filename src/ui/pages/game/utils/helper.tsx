@@ -29,9 +29,7 @@ const helper = {
   },
   getBankIcon(clicksCount: number, maxClicks: number, handleClick: () => void) {
     const percentage = (clicksCount / maxClicks) * 100;
-    console.log({
-      percentage,
-    });
+
     if (percentage < 5) return <EmptyBank onClick={handleClick} />;
     if (percentage < 15) return <BankIcon1 onClick={handleClick} />;
     if (percentage < 25) return <BankIcon2 onClick={handleClick} />;
