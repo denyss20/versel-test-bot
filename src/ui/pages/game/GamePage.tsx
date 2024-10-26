@@ -10,6 +10,7 @@ import { useAppContext } from "@context/useAppContext";
 import InfoRow from "@ui/components/info-row/InfoRow";
 import TokensCount from "@ui/components/tokens-count/TokensCount";
 import ProgressBar from "./components/ProgressBar";
+import Coin from "./components/Coin";
 
 import helper from "./utils/helper";
 
@@ -29,25 +30,70 @@ function GamePage() {
   const { tokensLiquidity, userData } = useAppContext();
   const { tokens } = userData || { tokens: 0 };
 
-  const maxClicks = 30;
+  const maxClicks = 500;
   const [clicksCount, setClicksCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const decrementInterval = useRef<NodeJS.Timeout | null>(null);
 
-  console.log(clicksCount);
+  const [coins, setCoins] = useState<number[]>([]);
+  const isClicking = useRef(false);
+
+  /* Get users data on load */
+  useEffect(() => {
+    if (webApp?.initData) {
+      getUserDataRequest(webApp.initData);
+      getTokensLiquidityDataRequest();
+    }
+  }, [webApp]);
 
   /* Handlers */
 
   // Function to handle finishing the game
   const finishCallback = useCallback(async (tappedTokens: number) => {
     console.warn("finish callback");
-    // Simulate a successful callback
     const isSuccess = await addNewTokenRequest(tappedTokens);
 
     if (isSuccess) {
       setClicksCount(0);
     }
   }, []);
+
+  // Trigger coin animation sequence
+  const triggerCoins = () => {
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => {
+        if (isClicking.current) {
+          setCoins((prevCoins) => [...prevCoins, Date.now() + i]);
+
+          // Remove each coin after 1.5 seconds (or the time it takes to reach the bank)
+          setTimeout(() => {
+            setCoins((prevCoins) => prevCoins.slice(1));
+          }, 1500);
+        }
+      }, i * 300); // Increased delay for larger spacing between coins
+    }
+  };
+
+  // Click handler for the icon
+  const handleClick = () => {
+    isClicking.current = true;
+    setClicksCount((prevCount) => {
+      const newCount = prevCount + 1;
+      triggerCoins();
+
+      if (newCount === maxClicks) {
+        finishCallback(newCount);
+        setIsActive(false);
+      } else {
+        setIsActive(true);
+        if (decrementInterval.current) {
+          clearInterval(decrementInterval.current);
+          decrementInterval.current = null;
+        }
+      }
+      return newCount >= maxClicks ? 0 : newCount;
+    });
+  };
 
   // Effect to handle decrement logic
   useEffect(() => {
@@ -81,44 +127,19 @@ function GamePage() {
     };
   }, [isActive, clicksCount]);
 
-  // Click handler for the icon
-  const handleClick = () => {
-    setClicksCount((prevCount) => {
-      const newCount = prevCount + 1;
-      if (newCount === maxClicks) {
-        finishCallback(newCount);
-        setIsActive(false); // To stop decrementing when the callback is successful
-      } else {
-        setIsActive(true);
-        if (decrementInterval.current) {
-          clearInterval(decrementInterval.current);
-          decrementInterval.current = null;
-        }
-      }
-      return newCount >= maxClicks ? 0 : newCount;
-    });
-  };
-
-  // Effect to activate decreasing after user stops clicking
+  // Effect to stop coin generation after the user stops clicking
   useEffect(() => {
     if (isActive) {
       const timeoutId = setTimeout(() => {
+        isClicking.current = false;
         setIsActive(false);
-      }, 200);
+      }, 200); // Adjust delay to wait for user inactivity
 
       return () => clearTimeout(timeoutId);
     }
   }, [isActive]);
 
-  /* Get users data on load */
-  useEffect(() => {
-    if (webApp?.initData) {
-      getUserDataRequest(webApp.initData);
-
-      getTokensLiquidityDataRequest();
-    }
-  }, [webApp]);
-
+  /* Render */
   const renderTopInfoRows = useMemo(() => {
     const _9Billions = 9000000000;
     const formattedUserTokens = helper.formatNumber(tokens);
@@ -138,10 +159,14 @@ function GamePage() {
     );
   }, [tokens, tokensLiquidity]);
 
-  /* Render */
   return (
     <div className="game-page">
       {renderTopInfoRows}
+
+      {/* Coin animations */}
+      {coins.map((coin) => (
+        <Coin key={coin} />
+      ))}
 
       <div className="game-page-main-content">
         <div className="banka-icon-wrapper">

@@ -1,0 +1,22 @@
+.coin {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  animation: fall 1.5s ease-in forwards;
+  opacity: 0.8;
+  z-index: 10;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(400px); /* Adjust to bank icon position */
+    opacity: 0;
+  }
+}
