@@ -1,10 +1,22 @@
+import React from "react";
 import CoinIcon from "../assets/CoinIcon";
-
 import "./Coin.css";
 
-const Coin: React.FC = () => {
+interface CoinProps {
+  size: number;
+  positionX: number;
+}
+
+const Coin: React.FC<CoinProps> = ({ size, positionX }) => {
   return (
-    <div className="coin">
+    <div
+      className="coin"
+      style={{
+        width: size,
+        height: size,
+        left: `calc(50% + ${positionX}px)`, // Adjust based on positionX for pyramid effect
+      }}
+    >
       <CoinIcon />
     </div>
   );

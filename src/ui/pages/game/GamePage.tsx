@@ -10,7 +10,7 @@ import { useAppContext } from "@context/useAppContext";
 import InfoRow from "@ui/components/info-row/InfoRow";
 import TokensCount from "@ui/components/tokens-count/TokensCount";
 import ProgressBar from "./components/ProgressBar";
-import Coin from "./components/Coin";
+import CoinsLoop from "./components/CoinsLoop";
 
 import helper from "./utils/helper";
 
@@ -30,12 +30,12 @@ function GamePage() {
   const { tokensLiquidity, userData } = useAppContext();
   const { tokens } = userData || { tokens: 0 };
 
-  const maxClicks = 500;
+  const maxClicks = 100;
   const [clicksCount, setClicksCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const decrementInterval = useRef<NodeJS.Timeout | null>(null);
 
-  const [coins, setCoins] = useState<number[]>([]);
+  const [isCoinLoopVisible, setIsCoinLoopVisible] = useState(false);
   const isClicking = useRef(false);
 
   /* Get users data on load */
@@ -58,28 +58,11 @@ function GamePage() {
     }
   }, []);
 
-  // Trigger coin animation sequence
-  const triggerCoins = () => {
-    for (let i = 0; i < 8; i++) {
-      setTimeout(() => {
-        if (isClicking.current) {
-          setCoins((prevCoins) => [...prevCoins, Date.now() + i]);
-
-          // Remove each coin after 1.5 seconds (or the time it takes to reach the bank)
-          setTimeout(() => {
-            setCoins((prevCoins) => prevCoins.slice(1));
-          }, 1500);
-        }
-      }, i * 300); // Increased delay for larger spacing between coins
-    }
-  };
-
   // Click handler for the icon
   const handleClick = () => {
-    isClicking.current = true;
+    setIsCoinLoopVisible(true); // Show the coin animation on click
     setClicksCount((prevCount) => {
       const newCount = prevCount + 1;
-      triggerCoins();
 
       if (newCount === maxClicks) {
         finishCallback(newCount);
@@ -131,9 +114,9 @@ function GamePage() {
   useEffect(() => {
     if (isActive) {
       const timeoutId = setTimeout(() => {
-        isClicking.current = false;
         setIsActive(false);
-      }, 200); // Adjust delay to wait for user inactivity
+        setIsCoinLoopVisible(false); // Hide the coin animation
+      }, 200);
 
       return () => clearTimeout(timeoutId);
     }
@@ -163,10 +146,7 @@ function GamePage() {
     <div className="game-page">
       {renderTopInfoRows}
 
-      {/* Coin animations */}
-      {coins.map((coin) => (
-        <Coin key={coin} />
-      ))}
+      <CoinsLoop isVisible={isCoinLoopVisible} />
 
       <div className="game-page-main-content">
         <div className="banka-icon-wrapper">

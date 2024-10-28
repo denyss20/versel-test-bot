@@ -6,7 +6,7 @@ const CoinIcon = ({ className = "", onClick = () => {} }) => (
     fill="none"
     onClick={onClick}
     style={{
-      transform: "rotate(30deg)",
+      transform: "rotate(20deg)",
     }}
   >
     <path
