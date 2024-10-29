@@ -19,6 +19,9 @@ import StarIcon from "./assets/StarIcon";
 
 import "./game-page.css";
 
+const maxClicks = 100;
+const animationCycleDuration = 1500;
+
 function GamePage() {
   /* API requests */
   const { getUserDataRequest } = useGetUserData();
@@ -30,13 +33,13 @@ function GamePage() {
   const { tokensLiquidity, userData } = useAppContext();
   const { tokens } = userData || { tokens: 0 };
 
-  const maxClicks = 100;
   const [clicksCount, setClicksCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const decrementInterval = useRef<NodeJS.Timeout | null>(null);
 
   const [isCoinLoopVisible, setIsCoinLoopVisible] = useState(false);
-  const isClicking = useRef(false);
+
+  const hideTimeout = useRef<NodeJS.Timeout | null>(null);
 
   /* Get users data on load */
   useEffect(() => {
@@ -60,7 +63,20 @@ function GamePage() {
 
   // Click handler for the icon
   const handleClick = () => {
-    setIsCoinLoopVisible(true); // Show the coin animation on click
+    // If the animation is not visible, show it
+    if (!isCoinLoopVisible) {
+      setIsCoinLoopVisible(true);
+    }
+
+    // Reset the hide timeout on every click
+    if (hideTimeout.current) {
+      clearTimeout(hideTimeout.current);
+    }
+
+    hideTimeout.current = setTimeout(() => {
+      setIsCoinLoopVisible(false);
+    }, animationCycleDuration);
+
     setClicksCount((prevCount) => {
       const newCount = prevCount + 1;
 
@@ -109,18 +125,6 @@ function GamePage() {
       }
     };
   }, [isActive, clicksCount]);
-
-  // Effect to stop coin generation after the user stops clicking
-  useEffect(() => {
-    if (isActive) {
-      const timeoutId = setTimeout(() => {
-        setIsActive(false);
-        setIsCoinLoopVisible(false); // Hide the coin animation
-      }, 200);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [isActive]);
 
   /* Render */
   const renderTopInfoRows = useMemo(() => {
