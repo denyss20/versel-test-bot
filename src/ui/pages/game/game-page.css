@@ -41,6 +41,10 @@
   user-select: none;
 }
 
+.banka-icon-wrapper:active {
+  transform: scale(0.98);
+}
+
 .progress-bar-wrapper {
   width: calc(100vw - 30px);
   max-width: 960px;

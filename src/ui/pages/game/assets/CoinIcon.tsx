@@ -1,13 +1,21 @@
-const CoinIcon = ({ className = "", onClick = () => {} }) => (
+interface CoinIconProps {
+  className?: string;
+  onClick?: () => void;
+  style?: React.CSSProperties;
+}
+
+const CoinIcon: React.FC<CoinIconProps> = ({
+  className = "",
+  onClick = () => {},
+  style,
+}) => (
   <svg
     className={className}
     width={43}
     height={43}
     fill="none"
     onClick={onClick}
-    style={{
-      transform: "rotate(20deg)",
-    }}
+    style={style}
   >
     <path
       fill="url(#a)"
