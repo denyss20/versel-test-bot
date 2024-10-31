@@ -21,6 +21,7 @@ import "./game-page.css";
 
 const maxClicks = 100;
 const animationCycleDuration = 1500;
+const decrementIntervalMs = 300;
 
 function GamePage() {
   /* API requests */
@@ -34,12 +35,10 @@ function GamePage() {
   const { tokens } = userData || { tokens: 0 };
 
   const [clicksCount, setClicksCount] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  const decrementInterval = useRef<NodeJS.Timeout | null>(null);
-
   const [isCoinLoopVisible, setIsCoinLoopVisible] = useState(false);
 
   const hideTimeout = useRef<NodeJS.Timeout | null>(null);
+  const decrementInterval = useRef<NodeJS.Timeout | null>(null);
 
   /* Get users data on load */
   useEffect(() => {
@@ -63,12 +62,8 @@ function GamePage() {
 
   // Click handler for the icon
   const handleClick = () => {
-    // If the animation is not visible, show it
-    if (!isCoinLoopVisible) {
-      setIsCoinLoopVisible(true);
-    }
+    setIsCoinLoopVisible(true);
 
-    // Reset the hide timeout on every click
     if (hideTimeout.current) {
       clearTimeout(hideTimeout.current);
     }
@@ -82,40 +77,30 @@ function GamePage() {
 
       if (newCount === maxClicks) {
         finishCallback(newCount);
-        setIsActive(false);
-      } else {
-        setIsActive(true);
-        if (decrementInterval.current) {
-          clearInterval(decrementInterval.current);
-          decrementInterval.current = null;
-        }
       }
-      return newCount >= maxClicks ? 0 : newCount;
-    });
-  };
 
-  // Effect to handle decrement logic
-  useEffect(() => {
-    if (clicksCount === 0) {
       if (decrementInterval.current) {
         clearInterval(decrementInterval.current);
         decrementInterval.current = null;
       }
-      return;
-    }
 
-    if (!isActive && clicksCount < maxClicks) {
+      return newCount >= maxClicks ? 0 : newCount;
+    });
+  };
+
+  // Effect to handle decrement logic after user stops clicking
+  useEffect(() => {
+    if (clicksCount > 0) {
       decrementInterval.current = setInterval(() => {
         setClicksCount((prevCount) => {
-          if (prevCount > 0) {
-            return prevCount - 1;
-          } else {
-            clearInterval(decrementInterval.current as NodeJS.Timeout);
+          const newCount = Math.max(0, prevCount - 1);
+          if (newCount === 0 && decrementInterval.current) {
+            clearInterval(decrementInterval.current);
             decrementInterval.current = null;
-            return 0;
           }
+          return newCount;
         });
-      }, 500);
+      }, decrementIntervalMs);
     }
 
     return () => {
@@ -124,7 +109,7 @@ function GamePage() {
         decrementInterval.current = null;
       }
     };
-  }, [isActive, clicksCount]);
+  }, [clicksCount]);
 
   /* Render */
   const renderTopInfoRows = useMemo(() => {
