@@ -20,7 +20,7 @@ import StarIcon from "./assets/StarIcon";
 import "./game-page.css";
 
 const maxClicks = 100;
-const animationCycleDuration = 1500;
+const animationCycleDuration = 1800; // Animation loop duration in ms
 const decrementIntervalMs = 300;
 
 function GamePage() {
@@ -36,8 +36,10 @@ function GamePage() {
 
   const [clicksCount, setClicksCount] = useState(0);
   const [isCoinLoopVisible, setIsCoinLoopVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [shouldFinishAnimation, setShouldFinishAnimation] = useState(false);
 
-  const hideTimeout = useRef<NodeJS.Timeout | null>(null);
+  const stopTimeout = useRef<NodeJS.Timeout | null>(null);
   const decrementInterval = useRef<NodeJS.Timeout | null>(null);
 
   /* Get users data on load */
@@ -52,45 +54,57 @@ function GamePage() {
 
   // Function to handle finishing the game
   const finishCallback = useCallback(async (tappedTokens: number) => {
-    console.warn("finish callback");
     const isSuccess = await addNewTokenRequest(tappedTokens);
-
-    if (isSuccess) {
-      setClicksCount(0);
-    }
+    if (isSuccess) setClicksCount(0);
   }, []);
 
-  // Click handler for the icon
-  const handleClick = () => {
-    setIsCoinLoopVisible(true);
-
-    if (hideTimeout.current) {
-      clearTimeout(hideTimeout.current);
+  // Start animation if it's not already running
+  const startAnimation = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      setIsCoinLoopVisible(true);
+      setShouldFinishAnimation(false);
     }
+  };
 
-    hideTimeout.current = setTimeout(() => {
-      setIsCoinLoopVisible(false);
+  const handleClick = () => {
+    // Start animation only if it isn't already running
+    startAnimation();
+
+    // Reset or clear stop timeout on each click
+    if (stopTimeout.current) clearTimeout(stopTimeout.current);
+
+    // Schedule to stop the animation if no clicks occur within the duration
+    stopTimeout.current = setTimeout(() => {
+      setShouldFinishAnimation(true); // Mark to finish the animation after the current cycle
     }, animationCycleDuration);
 
+    // Handle clicks count and finish callback logic
     setClicksCount((prevCount) => {
       const newCount = prevCount + 1;
-
-      if (newCount === maxClicks) {
+      if (newCount >= maxClicks) {
         finishCallback(newCount);
+        return 0;
       }
-
-      if (decrementInterval.current) {
-        clearInterval(decrementInterval.current);
-        decrementInterval.current = null;
-      }
-
-      return newCount >= maxClicks ? 0 : newCount;
+      return newCount;
     });
   };
 
-  // Effect to handle decrement logic after user stops clicking
+  // Effect to handle animation state based on `shouldFinishAnimation`
   useEffect(() => {
-    if (clicksCount > 0) {
+    if (shouldFinishAnimation && isAnimating) {
+      const finishTimer = setTimeout(() => {
+        setIsAnimating(false);
+        setIsCoinLoopVisible(false);
+      }, animationCycleDuration); // Delay to let the loop finish
+
+      return () => clearTimeout(finishTimer);
+    }
+  }, [shouldFinishAnimation, isAnimating]);
+
+  // Effect to handle decrement logic when user stops clicking
+  useEffect(() => {
+    if (clicksCount > 0 && !isAnimating) {
       decrementInterval.current = setInterval(() => {
         setClicksCount((prevCount) => {
           const newCount = Math.max(0, prevCount - 1);
@@ -109,7 +123,7 @@ function GamePage() {
         decrementInterval.current = null;
       }
     };
-  }, [clicksCount]);
+  }, [clicksCount, isAnimating]);
 
   /* Render */
   const renderTopInfoRows = useMemo(() => {

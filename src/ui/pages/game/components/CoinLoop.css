@@ -21,7 +21,7 @@
   width: 40px;
   height: 40px;
   opacity: 0.9;
-  animation: fall-loop 2s linear infinite;
+  animation: fall-loop 1.25s linear infinite;
 }
 
 /* Fall animation for coins */
