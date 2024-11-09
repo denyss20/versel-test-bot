@@ -34,9 +34,9 @@ const MenuItem: React.FC<{
 const BottomMenu: React.FC = () => {
   return (
     <div className="bottom-menu">
-      <MenuItem path="/" IconComponent={BankIcon} label="Game" />
-      <MenuItem path="/auction" IconComponent={AuctionIcon} label="Auction" />
       <MenuItem path="/wallet" IconComponent={WalletIcon} label="Wallet" />
+      <MenuItem path="/auction" IconComponent={AuctionIcon} label="Auction" />
+      <MenuItem path="/" IconComponent={BankIcon} label="Game" />
       <MenuItem path="/tasks" IconComponent={TasksIcon} label="Tasks" />
       <MenuItem path="/stats" IconComponent={StatsIcon} label="Stats" />
     </div>
