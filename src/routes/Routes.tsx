@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import GamePage from "@ui/pages/game/GamePage";
 import StatsPage from "@ui/pages/stats/StatsPage";
-import TasksPage from "@ui/pages/TasksPage";
+import TasksPage from "@ui/pages/tasks/TasksPage";
 import WalletPage from "@ui/pages/WalletPage";
 import AuctionPage from "@ui/pages/AuctionPage";
 import BottomBar from "@ui/components/bottom-bar/BottomBar";

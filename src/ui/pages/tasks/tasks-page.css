@@ -1,0 +1,85 @@
+.task-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  width: 100%;
+
+  position: absolute;
+  top: 0;
+
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.task-block {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 16px;
+  border-radius: 24px;
+  border: 1px solid var(--Cards-Stroke, #373739);
+  background: var(--Cards-Bg, #1c1c1d);
+
+  box-sizing: border-box;
+}
+
+.task-header {
+  color: var(--Accent-White, #fff);
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.block-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.check-button,
+.take-away-button {
+  margin-left: auto;
+  padding: 12px 16px;
+  background-color: #3d8dee;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.icon-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: #333;
+  border-radius: 12px;
+}
+
+.coin-number-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.coin-number-container svg {
+  margin-bottom: -3px;
+}
+
+.total-coin {
+  color: var(--Theme-Gray, #828282);
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}

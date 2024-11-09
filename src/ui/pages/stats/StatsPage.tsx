@@ -2,7 +2,7 @@ import CoinIcon from "./assets/CoinIcon";
 import CopyIcon from "./assets/CopyIcon";
 import UserProfileIcon from "./assets/UserProfileIcon";
 
-import "./StatsPage.css";
+import "./stats-page.css";
 
 const StatsPage: React.FC = () => {
   return (
