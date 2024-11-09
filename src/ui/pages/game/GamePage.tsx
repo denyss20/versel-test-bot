@@ -10,14 +10,18 @@ import { useAppContext } from "@context/useAppContext";
 import InfoRow from "@ui/components/info-row/InfoRow";
 import TokensCount from "@ui/components/tokens-count/TokensCount";
 import ProgressBar from "./components/ProgressBar";
+import CoinsLoop from "./components/CoinsLoop";
 
 import helper from "./utils/helper";
 
-import BankaIcon from "./assets/BankaIcon";
 import GlassIcon from "./assets/GlassIcon";
 import StarIcon from "./assets/StarIcon";
 
 import "./game-page.css";
+
+const maxClicks = 100;
+const animationCycleDuration = 1800; // Animation loop duration in ms
+const decrementIntervalMs = 300;
 
 function GamePage() {
   /* API requests */
@@ -30,46 +34,87 @@ function GamePage() {
   const { tokensLiquidity, userData } = useAppContext();
   const { tokens } = userData || { tokens: 0 };
 
-  const maxClicks = 10;
   const [clicksCount, setClicksCount] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [isCoinLoopVisible, setIsCoinLoopVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [shouldFinishAnimation, setShouldFinishAnimation] = useState(false);
+
+  const stopTimeout = useRef<NodeJS.Timeout | null>(null);
   const decrementInterval = useRef<NodeJS.Timeout | null>(null);
+
+  /* Get users data on load */
+  useEffect(() => {
+    if (webApp?.initData) {
+      getUserDataRequest(webApp.initData);
+      getTokensLiquidityDataRequest();
+    }
+  }, [webApp]);
 
   /* Handlers */
 
   // Function to handle finishing the game
   const finishCallback = useCallback(async (tappedTokens: number) => {
-    console.warn("finish callback");
-    // Simulate a successful callback
     const isSuccess = await addNewTokenRequest(tappedTokens);
-
-    if (isSuccess) {
-      setClicksCount(0);
-    }
+    if (isSuccess) setClicksCount(0);
   }, []);
 
-  // Effect to handle decrement logic
-  useEffect(() => {
-    if (clicksCount === 0) {
-      if (decrementInterval.current) {
-        clearInterval(decrementInterval.current);
-        decrementInterval.current = null;
-      }
-      return;
+  // Start animation if it's not already running
+  const startAnimation = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      setIsCoinLoopVisible(true);
+      setShouldFinishAnimation(false);
     }
+  };
 
-    if (!isActive && clicksCount < maxClicks) {
+  const handleClick = () => {
+    // Start animation only if it isn't already running
+    startAnimation();
+
+    // Reset or clear stop timeout on each click
+    if (stopTimeout.current) clearTimeout(stopTimeout.current);
+
+    // Schedule to stop the animation if no clicks occur within the duration
+    stopTimeout.current = setTimeout(() => {
+      setShouldFinishAnimation(true); // Mark to finish the animation after the current cycle
+    }, animationCycleDuration);
+
+    // Handle clicks count and finish callback logic
+    setClicksCount((prevCount) => {
+      const newCount = prevCount + 1;
+      if (newCount >= maxClicks) {
+        finishCallback(newCount);
+        return 0;
+      }
+      return newCount;
+    });
+  };
+
+  // Effect to handle animation state based on `shouldFinishAnimation`
+  useEffect(() => {
+    if (shouldFinishAnimation && isAnimating) {
+      const finishTimer = setTimeout(() => {
+        setIsAnimating(false);
+        setIsCoinLoopVisible(false);
+      }, animationCycleDuration); // Delay to let the loop finish
+
+      return () => clearTimeout(finishTimer);
+    }
+  }, [shouldFinishAnimation, isAnimating]);
+
+  // Effect to handle decrement logic when user stops clicking
+  useEffect(() => {
+    if (clicksCount > 0 && !isAnimating) {
       decrementInterval.current = setInterval(() => {
         setClicksCount((prevCount) => {
-          if (prevCount > 0) {
-            return prevCount - 1;
-          } else {
-            clearInterval(decrementInterval.current as NodeJS.Timeout);
+          const newCount = Math.max(0, prevCount - 1);
+          if (newCount === 0 && decrementInterval.current) {
+            clearInterval(decrementInterval.current);
             decrementInterval.current = null;
-            return 0;
           }
+          return newCount;
         });
-      }, 500);
+      }, decrementIntervalMs);
     }
 
     return () => {
@@ -78,46 +123,9 @@ function GamePage() {
         decrementInterval.current = null;
       }
     };
-  }, [isActive, clicksCount]);
+  }, [clicksCount, isAnimating]);
 
-  // Click handler for the icon
-  const handleClick = () => {
-    setClicksCount((prevCount) => {
-      const newCount = prevCount + 1;
-      if (newCount === maxClicks) {
-        finishCallback(newCount);
-        setIsActive(false); // To stop decrementing when the callback is successful
-      } else {
-        setIsActive(true);
-        if (decrementInterval.current) {
-          clearInterval(decrementInterval.current);
-          decrementInterval.current = null;
-        }
-      }
-      return newCount >= maxClicks ? 0 : newCount;
-    });
-  };
-
-  // Effect to activate decreasing after user stops clicking
-  useEffect(() => {
-    if (isActive) {
-      const timeoutId = setTimeout(() => {
-        setIsActive(false);
-      }, 200);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [isActive]);
-
-  /* Get users data on load */
-  useEffect(() => {
-    if (webApp?.initData) {
-      getUserDataRequest(webApp.initData);
-
-      getTokensLiquidityDataRequest();
-    }
-  }, [webApp]);
-
+  /* Render */
   const renderTopInfoRows = useMemo(() => {
     const _9Billions = 9000000000;
     const formattedUserTokens = helper.formatNumber(tokens);
@@ -137,14 +145,15 @@ function GamePage() {
     );
   }, [tokens, tokensLiquidity]);
 
-  /* Render */
   return (
     <div className="game-page">
       {renderTopInfoRows}
 
+      <CoinsLoop isVisible={isCoinLoopVisible} />
+
       <div className="game-page-main-content">
         <div className="banka-icon-wrapper">
-          <BankaIcon onClick={handleClick} />
+          {helper.getBankIcon(clicksCount, maxClicks, handleClick)}
         </div>
 
         <TokensCount />
