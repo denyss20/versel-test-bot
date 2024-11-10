@@ -13,7 +13,7 @@ const StatsPage: React.FC = () => {
         </div>
         <div className="header-ref">
           <div className="total-text">Total referrals</div>
-          <div className="total-number">3234</div>
+          <div className="total-number">1</div>
         </div>
       </div>
 
@@ -23,7 +23,7 @@ const StatsPage: React.FC = () => {
         </div>
         <div className="header-earned">
           <div className="total-text">Total earned</div>
-          <div className="total-number">50 000 000</div>
+          <div className="total-number">10 000</div>
         </div>
       </div>
 

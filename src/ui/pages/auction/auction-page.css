@@ -1,0 +1,276 @@
+.auction-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  position: absolute;
+  top: 0;
+
+  padding: 16px;
+
+  max-width: 6000px;
+  overflow: hidden;
+}
+
+.block-full-info {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 430px;
+
+  border-radius: 24px;
+  border: 1px solid var(--Cards-Stroke, #373739);
+  background: var(--Cards-Bg, #1c1c1d);
+  margin-top: -12px;
+}
+
+.top-blocks {
+  display: flex;
+  gap: 8px;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.info-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 16px;
+
+  border-radius: 24px;
+  width: 160px;
+  border-radius: 24px;
+  border: 1px solid var(--Cards-Stroke, #373739);
+  background: var(--Cards-Bg, #1c1c1d);
+}
+
+.top-block-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.top-block-text {
+  color: #828282;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.top-block-number {
+  color: var(--Accent-White, #fff);
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+}
+
+.center-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 430px;
+
+  margin-top: 10px;
+  position: relative;
+}
+
+.icon-wh {
+  width: 24px;
+  height: 24px;
+}
+
+.total-banks-text {
+  color: #8b9199;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.card-placeholder {
+  width: 300px;
+  height: 200px;
+  background-color: #444;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.total-banks-number {
+  color: var(--Accent-White, #fff);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  margin-bottom: 10px;
+}
+.block-full {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.bet-text {
+  color: #8b9199;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+.stats-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.stats {
+  color: var(--Accent-White, #fff);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+}
+.coin-total {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.input-and-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.input-count {
+  display: flex;
+  flex-grow: 1;
+  width: 249px;
+  height: 48px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px solid #3c3c3e;
+  background: #2d2d2e;
+  color: #8b9199;
+  padding-left: 16px;
+  text-align: left;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+.submit-button {
+  display: flex;
+  white-space: nowrap;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: #1c1c1d;
+  border: 2px solid var(--Theme-Primary, #3d8dee);
+  color: var(--Theme-Primary, #3d8dee);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+}
+.outbid-button {
+  display: flex;
+  padding: 20px 16px;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 16px;
+  background: var(--Theme-Primary, #3d8dee);
+  color: var(--Accent-White, #fff);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+}
+.progress-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--Accent-White, #fff);
+  font-family: "Montserrat", sans-serif;
+  gap: 5px;
+}
+.progress-title {
+  color: #8b9199;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+.progress-amount {
+  display: flex;
+  align-items: center;
+  color: var(--Accent-White, #fff);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+}
+.progress-user {
+  font-size: 12px;
+  color: #828282;
+  margin-top: 8px;
+  overflow: hidden;
+  color: var(--Theme-Gray-2, #8b9199);
+  text-align: center;
+  text-overflow: ellipsis;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+.under-text {
+  color: var(--Theme-Gray, #828282);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.45px;
+  margin-top: 8px;
+}

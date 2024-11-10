@@ -16,7 +16,7 @@
 
 .task-block {
   width: 100%;
-  max-width: 600px;
+  max-width: 430px;
   display: flex;
   align-items: center;
   gap: 16px;
