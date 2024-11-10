@@ -22,7 +22,9 @@ const MenuItem: React.FC<{
 
   return (
     <div
-      className={`menu-item ${isActive ? "active" : ""}`}
+      className={`menu-item ${isActive ? "active" : ""} ${
+        label === "Game" && isActive ? "game-menu-item" : ""
+      }`}
       onClick={() => navigate(path)}
     >
       <IconComponent className="icon" fill={isActive ? "#3d8dee" : "#828282"} />
