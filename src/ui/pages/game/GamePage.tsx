@@ -50,7 +50,6 @@ function GamePage() {
     }
   }, [webApp]);
 
-  /* Handlers */
 
   // Function to handle finishing the game
   const finishCallback = useCallback(async (tappedTokens: number) => {
